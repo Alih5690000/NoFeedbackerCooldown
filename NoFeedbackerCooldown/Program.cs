@@ -11,9 +11,10 @@ using PluginConfig.API.Decorators;
 [BepInPlugin("me.NFC","No Feedbacker Cooldown","1.0")]
 public class Plugin:BaseUnityPlugin{
     static public float PunchCd=0;
-    static public int cdPerHit=0;
+    static public int cdPerHit=5;
     static public int punched=0;
     public static ConfigEntry<bool> Fb;
+    public static ConfigEntry<float> cd;
     public static PluginConfigurator config;
     void Awake()
     {
@@ -24,6 +25,19 @@ public class Plugin:BaseUnityPlugin{
             "Enabled", true, 
             "Whether the mod is enabled or not."
         );
+        cd=Config.Bind(
+            "General", 
+            "Cooldown Per Hit", 0f, 
+            "Cooldown per hit in seconds."
+        );
+        FloatField cdField=new FloatField(
+            config.rootPanel, "Cooldown per hit in seconds.",
+            "field.cdperhit",
+            0f,true);
+        cdField.onValueChange+=(v)=>{
+            cd.Value=v.value;
+        };
+        cd.Value=cdField.value;
         BoolField f=new BoolField(
             config.rootPanel, "Whether the mod is enabled or not.",
             "field.isenabled",
@@ -73,12 +87,15 @@ class AnotherPatch
 [HarmonyPatch(typeof(Punch), "PunchStart")]
 class PunchStartPatch
 {
-    static void Postfix(Punch __instance)
+    static void Prefix(Punch __instance)
     {
-        if (Plugin.PunchCd>0) __instance.CancelAttack();
+        if (Plugin.PunchCd>0) {
+            __instance.ready=false;
+            return;
+        }
         if (!Plugin.Fb.Value) return;
         Plugin.punched++;
         __instance.ready=true;
-        Plugin.PunchCd=Plugin.cdPerHit;
+        Plugin.PunchCd=Plugin.cd.Value;
     }
 }
