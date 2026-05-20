@@ -10,11 +10,15 @@ using PluginConfig.API.Decorators;
 
 [BepInPlugin("me.NFC","No Feedbacker Cooldown","1.0")]
 public class Plugin:BaseUnityPlugin{
+    static public float PunchCd=0;
+    static public int cdPerHit=0;
     static public int punched=0;
     public static ConfigEntry<bool> Fb;
     public static PluginConfigurator config;
     void Awake()
     {
+        config = PluginConfigurator.
+            Create("No Feedbacker Cooldown", "me.NFC");
         Fb=Config.Bind(
             "General", 
             "Enabled", true, 
@@ -27,8 +31,6 @@ public class Plugin:BaseUnityPlugin{
         f.onValueChange += (v) =>{
             Fb.Value=v.value;
         };
-        config = PluginConfigurator.
-            Create("No Feedbacker Cooldown", "me.NFC");
         Logger.LogInfo("Mod loaded!");
         var harmony = new Harmony("me.NFC");
         harmony.PatchAll();
@@ -40,13 +42,15 @@ public class Plugin:BaseUnityPlugin{
         {
             Logger.LogInfo("Called "+punched+" times");
         }
+        PunchCd-=Time.deltaTime;
+        if (PunchCd<0) PunchCd=0;
     }
 };
 
 [HarmonyPatch(typeof(FistControl), "Update")]
 class FeedbackerPatch
 {
-    static void Postfix(FistControl __instance)
+    static void Prefix(FistControl __instance)
     { 
         if (!Plugin.Fb.Value) return;
         Plugin.punched++;
@@ -59,7 +63,7 @@ class FeedbackerPatch
 [HarmonyPatch(typeof(FistControl), "ForceArm")]
 class AnotherPatch
 {
-    static void Postfix(ref bool __result)
+    static void Prefix(ref bool __result)
     { 
         if (!Plugin.Fb.Value) return;
         __result = true;
@@ -71,8 +75,9 @@ class PunchStartPatch
 {
     static void Postfix(Punch __instance)
     {
-        if (!Plugin.Fb.Value) return;
+        if (!Plugin.Fb.Value || Plugin.PunchCd>0) return;
         Plugin.punched++;
         __instance.ready=true;
+        Plugin.PunchCd=Plugin.cdPerHit;
     }
 }

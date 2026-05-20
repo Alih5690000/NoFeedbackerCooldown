@@ -16,3 +16,4 @@
 /workspaces/NoFeedbackerCooldown/NoFeedbackerCooldown/obj/Debug/netstandard2.1/NoFeedba.F5EDDDA3.Up2Date
 /workspaces/NoFeedbackerCooldown/NoFeedbackerCooldown/obj/Debug/netstandard2.1/NoFeedbackerCooldown.dll
 /workspaces/NoFeedbackerCooldown/NoFeedbackerCooldown/obj/Debug/netstandard2.1/NoFeedbackerCooldown.pdb
+/workspaces/NoFeedbackerCooldown/NoFeedbackerCooldown/bin/Debug/netstandard2.1/PluginConfigurator.dll
