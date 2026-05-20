@@ -75,7 +75,8 @@ class PunchStartPatch
 {
     static void Postfix(Punch __instance)
     {
-        if (!Plugin.Fb.Value || Plugin.PunchCd>0) return;
+        if (Plugin.PunchCd>0) __instance.CancelAttack();
+        if (!Plugin.Fb.Value) return;
         Plugin.punched++;
         __instance.ready=true;
         Plugin.PunchCd=Plugin.cdPerHit;
