@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("NoFeedbackerCooldown")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+2390371e1e8ec5f398fc31efb266cc3a14b66b4f")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+aa28fc49d9f0f8a39b593fa33636eba24f47e67d")]
 [assembly: System.Reflection.AssemblyProductAttribute("NoFeedbackerCooldown")]
 [assembly: System.Reflection.AssemblyTitleAttribute("NoFeedbackerCooldown")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
