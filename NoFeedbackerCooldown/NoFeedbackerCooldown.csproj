@@ -11,6 +11,10 @@
       <HintPath>BepInEx.dll</HintPath>
     </Reference>
 
+    <Reference Include="PluginConfigurator">
+      <HintPath>PluginConfigurator.dll</HintPath>
+    </Reference>
+
     <Reference Include="0Harmony">
       <HintPath>0Harmony.dll</HintPath>
     </Reference>
